@@ -14,6 +14,7 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		5C452F622B0AB43300EDB18A /* CafIdentity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C452F612B0AB43300EDB18A /* CafIdentity.swift */; };
 		5C452F642B0AB45B00EDB18A /* CafIdentity.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C452F632B0AB45B00EDB18A /* CafIdentity.m */; };
+		5C62299F2B15298D007EA2B9 /* CheckInternetConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C62299E2B15298D007EA2B9 /* CheckInternetConnection.swift */; };
 		7699B88040F8A987B510C191 /* libPods-cafbridge_identity-cafbridge_identityTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-cafbridge_identity-cafbridge_identityTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
@@ -45,6 +46,7 @@
 		5C452F602B0AB43300EDB18A /* cafbridge_identity-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "cafbridge_identity-Bridging-Header.h"; sourceTree = "<group>"; };
 		5C452F612B0AB43300EDB18A /* CafIdentity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CafIdentity.swift; sourceTree = "<group>"; };
 		5C452F632B0AB45B00EDB18A /* CafIdentity.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CafIdentity.m; sourceTree = "<group>"; };
+		5C62299E2B15298D007EA2B9 /* CheckInternetConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckInternetConnection.swift; sourceTree = "<group>"; };
 		5DCACB8F33CDC322A6C60F78 /* libPods-cafbridge_identity.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-cafbridge_identity.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = cafbridge_identity/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-cafbridge_identity-cafbridge_identityTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-cafbridge_identity-cafbridge_identityTests.release.xcconfig"; path = "Target Support Files/Pods-cafbridge_identity-cafbridge_identityTests/Pods-cafbridge_identity-cafbridge_identityTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -97,6 +99,7 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				5C452F612B0AB43300EDB18A /* CafIdentity.swift */,
+				5C62299E2B15298D007EA2B9 /* CheckInternetConnection.swift */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				5C452F632B0AB45B00EDB18A /* CafIdentity.m */,
 				5C452F602B0AB43300EDB18A /* cafbridge_identity-Bridging-Header.h */,
@@ -421,6 +424,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5C452F642B0AB45B00EDB18A /* CafIdentity.m in Sources */,
+				5C62299F2B15298D007EA2B9 /* CheckInternetConnection.swift in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
 				5C452F622B0AB43300EDB18A /* CafIdentity.swift in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,

@@ -31,6 +31,8 @@ public class CafIdentityActivity extends ReactActivity {
     private String policyId;
     private String customConfig;
     private Intent intent;
+    private Identity identity;
+    private IdentityConfig config;
     private static final int REQUEST_FINE_LOCATION_PERMISSION = 1;
     private static final int REQUEST_CAMERA_PERMISSION = 2;
 
@@ -52,33 +54,46 @@ public class CafIdentityActivity extends ReactActivity {
         }
 
         try {
+            config = new IdentityConfig(customConfig);
             this.identity();
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
+
     }
 
-    public void identity() throws JSONException {
-        try {
-            IdentityConfig config = new IdentityConfig(customConfig);
+    public void identity() {
+        if (InternetConnectionChecker.isInternetConnected(getApplicationContext())) {
+            WritableMap writableMap = new WritableNativeMap();
+            writableMap.putString("type", "Error");
+            writableMap.putString("message", "Error: Dispositivo não esta conectado a internet");
 
-            Identity identity;
+            getReactInstanceManager().getCurrentReactContext()
+                    .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                    .emit("FaceLiveness_Error", writableMap);
+            finish();
+            return;
+        }
 
-            if (config.livenessToken == null) {
-                identity = new Identity.Builder(token, this)
-                        .setStage(config.cafStage)
-                        .setPhoneUrl(config.setPhoneUrl)
-                        .setEmailUrl(config.setEmailUrl)
-                        .build();
-            } else {
-                identity = new Identity.Builder(token, this)
-                        .setStage(config.cafStage)
-                        .setPhoneUrl(config.setPhoneUrl)
-                        .setEmailUrl(config.setEmailUrl)
-                        .setFaceAuthenticatorSettings(new FaceAuthenticatorSettings(config.livenessToken, config.setLoadingScreen, config.setEnableScreenshots, config.filter))
-                        .build();
-            }
+        if (config.livenessToken == null) {
+            identity = new Identity.Builder(token, this)
+                    .setStage(config.cafStage)
+                    .setPhoneUrl(config.setPhoneUrl)
+                    .setEmailUrl(config.setEmailUrl)
+                    .build();
+        } else {
+            identity = new Identity.Builder(token, this)
+                    .setStage(config.cafStage)
+                    .setPhoneUrl(config.setPhoneUrl)
+                    .setEmailUrl(config.setEmailUrl)
+                    .setFaceAuthenticatorSettings(new FaceAuthenticatorSettings(config.livenessToken, config.setLoadingScreen, config.setEnableScreenshots, config.filter))
+                    .build();
+        }
 
+        authenticate();
+    }
+
+    private void authenticate() {
             identity.verifyPolicy(personId, policyId, new VerifyPolicyListener() {
                 @Override
                 public void onSuccess(boolean isAuthorized, @Nullable String attemptId, @Nullable String attestation) {
@@ -136,16 +151,6 @@ public class CafIdentityActivity extends ReactActivity {
                     finish();
                 }
             });
-        } catch (Exception e) {
-            e.printStackTrace();
-            WritableMap writableMap = new WritableNativeMap();
-            writableMap.putString("error", e.getMessage());
-            writableMap.putString("type", "error");
-            getReactInstanceManager().getCurrentReactContext()
-                    .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                    .emit("Identity_Error", writableMap);
-            finish();
-        }
     }
 
 }

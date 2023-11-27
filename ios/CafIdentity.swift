@@ -12,6 +12,10 @@ import FaceLiveness
 
 @objc(CafIdentity)
 class CAFIdentity: RCTEventEmitter {
+  var emailURL: URL? = nil
+  var phoneURL: URL? = nil
+  var cafStage: CAFStage = .PROD
+  var livenessToken: String? = nil
   
   @objc
   override static func requiresMainQueueSetup() -> Bool {
@@ -38,34 +42,41 @@ class CAFIdentity: RCTEventEmitter {
   }
   
   @objc(identity:personId:policyId:config:)
-    func identity(token: String, personId: String, policyId: String, config: String) {
-        var configDictionary: [String: Any]? = nil
-        if let data = config.data(using: .utf8) {
-            configDictionary = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
-        }
-        
-        var emailURL: URL? = nil
-        var phoneURL: URL? = nil
-        var cafStage: CAFStage = .PROD
-        var livenessToken: String? = nil
+  func identity(token: String, personId: String, policyId: String, config: String) {
+    var configDictionary: [String: Any]? = nil
+    if let data = config.data(using: .utf8) {
+      configDictionary = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+    }
+    
+    if CheckInternetConnection.shared.monitor.currentPath.status == .satisfied {
+      if let email = configDictionary?["emailURL"] as? String {
+        emailURL = URL(string: email)
+      }
       
-        if let email = configDictionary?["emailURL"] as? String {
-            emailURL = URL(string: email)
-        }
-        
-        if let phone = configDictionary?["phoneURL"] as? String {
-            phoneURL = URL(string: phone)
-        }
+      if let phone = configDictionary?["phoneURL"] as? String {
+        phoneURL = URL(string: phone)
+      }
       
-        if let newLivenessToken = configDictionary?["livenessToken"] as? String {
-          livenessToken = newLivenessToken
-        }
+      if let newLivenessToken = configDictionary?["livenessToken"] as? String {
+        livenessToken = newLivenessToken
+      }
       
       
-        if let cafStageValue = configDictionary?["cafStage"] as? Int, let newCafStage = CAFStage(rawValue: cafStageValue) {
-          cafStage = newCafStage
-        }
-        
+      if let cafStageValue = configDictionary?["cafStage"] as? Int, let newCafStage = CAFStage(rawValue: cafStageValue) {
+        cafStage = newCafStage
+      }
+      
+      authenticate(token: token, personId: personId, policyId: policyId)
+      
+    } else {
+      let response : NSMutableDictionary = [:]
+      response["type"] = "Error"
+      response["message"] = "Error: Dispositivo não esta conectado a internet"
+      sendEvent(withName: "FaceLiveness_Error", body: response)
+    }
+  }
+  
+  func authenticate(token: String, personId: String, policyId: String) {
         
       let identity = IdentitySDK.Builder(mobileToken: token, livenessToken: livenessToken!)
           .setStage(cafStage)
