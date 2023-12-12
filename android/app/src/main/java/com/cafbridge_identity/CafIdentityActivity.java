@@ -38,6 +38,8 @@ public class CafIdentityActivity extends ReactActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setContentView(R.layout.activity_caf_identity);
+
         intent = getIntent();
         token = intent.getStringExtra("token");
         personId = intent.getStringExtra("personId");
